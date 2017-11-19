@@ -30,11 +30,13 @@ class MainView : View() {
                 var minutes = 5
                 var seconds = 0
                 label("B&W")
-                var timelable = label("$minutes : $seconds")
+                var timeLabel = label("$minutes : $seconds")
                 button("+"){
-                  setOnAction {
-                    minutes++
-                    println("Updated? $minutes")
+                  action {
+                    minutes += 1
+                    timeLabel = label("$minutes : $seconds")
+                    println(timeLabel)
+                    println(minutes)
                   }
                 }
                 button("-"){
