@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleIntegerProperty
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.control.Button
+import javafx.scene.control.TabPane
+import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import tornadofx.*
@@ -24,65 +26,71 @@ class MainView : View() {
       val minutes = SimpleIntegerProperty(5)
       val seconds = SimpleIntegerProperty(0)
 
-      fun incrementM() { minutes.value += 1 }
-      fun decrementM() { if(minutes.value > 0) { minutes.value -= 1 } else { println("Nope.") } }
-      fun incrementS() { seconds.value += 1 }
-      fun decrementS() { if(seconds.value > 0) { seconds.value -= 1 } else { println("Nope.") } }
+      fun incrementM() {
+        minutes.value += 1
+      }
 
-      borderpane {
-        top {
-          button("B&W") {
-            prefWidth = 80.0
+      fun decrementM() {
+        if (minutes.value > 0) {
+          minutes.value -= 1
+        } else {
+          println("Nope.")
+        }
+      }
+
+      fun incrementS() {
+        seconds.value += 1
+      }
+
+      fun decrementS() {
+        if (seconds.value > 0) {
+          seconds.value -= 1
+        } else {
+          println("Nope.")
+        }
+      }
+
+      tabpane {
+        tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
+        tab("B&W", GridPane()) {
+          prefWidth = 320.0
+          label("B&W")
+          label("$minutes") {
+            bind(minutes)
+          }
+          button("+") {
             action {
-              center {
-                label("B&W")
-                label("$minutes") {
-                  layoutX = 50.0
-                  layoutY = 50.0
-                  bind(minutes)
-                }
-                button("+") {
-                  action {
-                    incrementM()
-                  }
-                }
-                button("-") {
-                  action {
-                    decrementM()
-                  }
-                }
-                button("Start B&W")
-              }
+              incrementM()
             }
           }
-          button("C41") {
-            prefWidth = 80.0
+          button("-") {
             action {
-              center = vbox {
-                label("C41")
-              }
+              decrementM()
             }
           }
-          button("E6") {
-            prefWidth = 80.0
+          button("Start B&W") {
             action {
-              center {
-                label("E6")
-              }
-            }
-          }
-          button("Custom") {
-            prefWidth = 80.0
-            action {
-              center {
-                label("Custom Program")
-              }
+              val time = (minutes.value * 60) + (seconds.value)
+              val planList = listOf(
+                      Plan(Bath.WATER, 0, 60, true),
+                      Plan(Bath.A, 10, time, true),
+                      Plan(Bath.WATER, 30, 60, true),
+                      Plan(Bath.B, 10, 300, false)
+              )
+              println(scheduleBuilder(planList))
             }
           }
         }
-        center {
-          label("FILM-O-MATIC") {
-          }
+        tab("C41", GridPane()) {
+
+        }
+        tab("E6", GridPane()) {
+
+        }
+        tab("Custom", GridPane()) {
+        }
+        tab("Settings", GridPane()) {
+
         }
       }
     }
