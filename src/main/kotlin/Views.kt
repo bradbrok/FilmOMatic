@@ -3,6 +3,7 @@
  */
 
 import com.sun.prism.paint.Color
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.control.Button
@@ -24,9 +25,23 @@ class MainView : View() {
         top = hbox {
           button("B&W") {
             prefWidth = 80.0
-            action{
+            action {
               center = vbox {
+                var minutes = 5
+                var seconds = 0
                 label("B&W")
+                var timelable = label("$minutes : $seconds")
+                button("+"){
+                  setOnAction {
+                    minutes++
+                    println("Updated? $minutes")
+                  }
+                }
+                button("-"){
+                  setOnAction {
+                    minutes--
+                  }
+                }
                 button("Start B&W")
               }
             }
