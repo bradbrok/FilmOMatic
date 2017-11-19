@@ -30,15 +30,16 @@ class MainView : View() {
       fun decrementS() { if(seconds.value > 0) { seconds.value -= 1 } else { println("Nope.") } }
 
       borderpane {
-        top = hbox {
+        top {
           button("B&W") {
             prefWidth = 80.0
             action {
-              center = vbox {
+              center {
                 label("B&W")
                 label("$minutes") {
+                  layoutX = 50.0
+                  layoutY = 50.0
                   bind(minutes)
-                   alignment = Pos.CENTER
                 }
                 button("+") {
                   action {
