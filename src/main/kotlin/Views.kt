@@ -21,30 +21,38 @@ class MainView : View() {
       prefHeight = 240.0
       prefWidth = 320.0
 
+      val minutes = SimpleIntegerProperty(5)
+      val seconds = SimpleIntegerProperty(0)
+
+      fun incrementM() { minutes.value += 1 }
+      fun decrementM() { minutes.value -= 1 }
+      fun incrementS() { seconds.value += 1 }
+      fun decrementS() { seconds.value -= 1 }
+
       borderpane {
         top = hbox {
           button("B&W") {
             prefWidth = 80.0
             action {
               center = vbox {
-                var minutes = 5
-                var seconds = 0
                 label("B&W")
-                var timeLabel = label("$minutes : $seconds")
+                label("$minutes") {
+                  bind(minutes)
+                   alignment = Pos.CENTER
+                }
                 button("+") {
                   action {
-                    minutes += 1
-                    println(timeLabel)
-                    println(minutes)
+                    incrementM()
                   }
                 }
                 button("-") {
                   action {
-                    if(minutes > 0) {
-                      minutes--
+                    val x = minutes.value
+                    if(x > 0) {
+                      decrementM()
                     }
                     else {
-                      minutes = 1
+                      println("Nope.")
                     }
                   }
                 }
