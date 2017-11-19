@@ -31,17 +31,21 @@ class MainView : View() {
                 var seconds = 0
                 label("B&W")
                 var timeLabel = label("$minutes : $seconds")
-                button("+"){
+                button("+") {
                   action {
                     minutes += 1
-                    timeLabel = label("$minutes : $seconds")
                     println(timeLabel)
                     println(minutes)
                   }
                 }
-                button("-"){
-                  setOnAction {
-                    minutes--
+                button("-") {
+                  action {
+                    if(minutes > 0) {
+                      minutes--
+                    }
+                    else {
+                      minutes = 1
+                    }
                   }
                 }
                 button("Start B&W")
