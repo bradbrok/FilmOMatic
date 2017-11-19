@@ -25,9 +25,9 @@ class MainView : View() {
       val seconds = SimpleIntegerProperty(0)
 
       fun incrementM() { minutes.value += 1 }
-      fun decrementM() { minutes.value -= 1 }
+      fun decrementM() { if(minutes.value > 0) { minutes.value -= 1 } else { println("Nope.") } }
       fun incrementS() { seconds.value += 1 }
-      fun decrementS() { seconds.value -= 1 }
+      fun decrementS() { if(seconds.value > 0) { seconds.value -= 1 } else { println("Nope.") } }
 
       borderpane {
         top = hbox {
@@ -47,13 +47,7 @@ class MainView : View() {
                 }
                 button("-") {
                   action {
-                    val x = minutes.value
-                    if(x > 0) {
-                      decrementM()
-                    }
-                    else {
-                      println("Nope.")
-                    }
+                    decrementM()
                   }
                 }
                 button("Start B&W")
