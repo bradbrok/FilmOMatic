@@ -141,7 +141,8 @@ class MainView : View() {
                 launch { planExecutor(scheduleBuilder(planList)) }
               }
               gridpaneConstraints {
-                columnRowIndex(4, 4)
+                columnRowIndex(1, 4)
+                columnSpan = 3
               }
             }
           }

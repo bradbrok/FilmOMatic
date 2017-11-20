@@ -10,7 +10,7 @@ object GPIO {
     try {
       val gpioInstance = GpioFactory.getInstance()
     } catch (e: Exception) {
-      println(e)
+      val gpioInstance = null
     }
   }
 }
