@@ -11,6 +11,7 @@ import javafx.scene.control.TabPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
+import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 
 class FilmOMaticUI : App(MainView::class)
@@ -128,7 +129,7 @@ class MainView : View() {
                         Plan(Bath.WATER, 30, 60, true),
                         Plan(Bath.B, 10, 300, false)
                 )
-                println(scheduleBuilder(planList))
+                launch {planExecutor(scheduleBuilder(planList))}
               }
               gridpaneConstraints {
                 columnRowIndex(4, 4)
