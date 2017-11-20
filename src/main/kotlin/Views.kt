@@ -3,6 +3,7 @@
  */
 
 import com.sun.prism.paint.Color
+import javafx.application.Platform
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.geometry.Pos
 import javafx.scene.control.Label
@@ -13,6 +14,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import kotlinx.coroutines.experimental.launch
 import tornadofx.*
+import kotlin.concurrent.thread
 
 class FilmOMaticUI : App(MainView::class)
 
@@ -139,6 +141,7 @@ class MainView : View() {
                         Plan(Bath.B, 10, 300, false)
                 )
                 launch { planExecutor(scheduleBuilder(planList)) }
+                replaceWith(InProgress::class)
               }
               gridpaneConstraints {
                 columnRowIndex(1, 4)
@@ -156,6 +159,31 @@ class MainView : View() {
           }
           tab("Settings", GridPane()) {
 
+          }
+        }
+      }
+    }
+  }
+}
+
+class InProgress : View() {
+  override val root = borderpane()
+
+  init {
+    with(root) {
+      center = vbox {
+        progressbar()
+        {
+          thread {
+            for (i in 1..100) {
+              Platform.runLater { progress = i.toDouble() / 100.0 }
+              Thread.sleep(100)
+            }
+          }
+        }
+        button("Done" ) {
+          action {
+            replaceWith(MainView::class)
           }
         }
       }
