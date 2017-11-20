@@ -31,87 +31,121 @@ class MainView : View() {
       }
 
       fun decrementM() {
-        if (minutes.value > 0) {
-          minutes.value -= 1
-        } else {
-          println("Nope.")
+        when (minutes.value) {
+          0 -> println("Nope.")
+          else -> minutes.value--
         }
       }
 
       fun incrementS() {
-        seconds.value += 1
+        when (seconds.value) {
+          59 -> {minutes.value++; seconds.value = 0}
+          else -> seconds.value++
+        }
       }
 
       fun decrementS() {
-        if (seconds.value > 0) {
-          seconds.value -= 1
-        } else {
-          println("Nope.")
+        when (seconds.value) {
+          0 -> if(seconds.value == 0) { when (minutes.value) {
+            0  -> println("Nope")
+            else -> {minutes.value--; seconds.value = 59}
+          } }
+          else -> seconds.value--
         }
       }
 
       tabpane {
         tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
         tab("B&W", GridPane()) {
+          prefWidth = 320.0
           gridpane {
-            row {
-              prefWidth = 320.0
-              label("$minutes") {
-                bind(minutes)
-                gridpaneConstraints {
-                  columnRowIndex(0, 0)
-                }
+            label(minutes) {
+              prefWidth = 40.0
+              style {
+                fontSize = 24.px
               }
-              label(seconds) {
-                bind(seconds)
-                gridpaneConstraints {
-                  columnRowIndex(1, 0)
-                }
+              bind(minutes)
+              gridpaneConstraints {
+                columnRowIndex(1, 1)
               }
-              button("+") {
-                action {
-                  incrementM()
-                }
-                gridpaneConstraints {
-                  columnRowIndex(0, 1)
-                }
+            }
+            label(":") {
+              style {
+                fontSize = 24.px
               }
-              button("-") {
-                action {
-                  decrementM()
-                }
-                gridpaneConstraints {
-                  columnRowIndex(1, 1)
-                }
+              gridpaneConstraints {
+                columnRowIndex(2, 1)
               }
-              button("Start B&W") {
-                action {
-                  val time = (minutes.value * 60) + (seconds.value)
-                  val planList = listOf(
-                          Plan(Bath.WATER, 0, 60, true),
-                          Plan(Bath.A, 10, time, true),
-                          Plan(Bath.WATER, 30, 60, true),
-                          Plan(Bath.B, 10, 300, false)
-                  )
-                  println(scheduleBuilder(planList))
-                }
-                gridpaneConstraints {
-                  columnRowIndex(1, 3)
-                }
+            }
+            label(seconds) {
+              prefWidth = 40.0
+              style {
+                fontSize = 24.px
+              }
+              bind(seconds)
+              gridpaneConstraints {
+                columnRowIndex(3, 1)
+              }
+            }
+            button("+") {
+              action {
+                incrementM()
+              }
+              gridpaneConstraints {
+                columnRowIndex(1, 2)
+              }
+            }
+            button("-") {
+              action {
+                decrementM()
+              }
+              gridpaneConstraints {
+                columnRowIndex(1, 3)
+              }
+            }
+            button("+") {
+              action {
+                incrementS()
+              }
+              gridpaneConstraints {
+                columnRowIndex(3, 2)
+              }
+            }
+            button("-") {
+              action {
+                decrementS()
+              }
+              gridpaneConstraints {
+                columnRowIndex(3, 3)
+              }
+            }
+            button("Start B&W") {
+              action {
+                val time = (minutes.value * 60) + (seconds.value)
+                val planList = listOf(
+                        Plan(Bath.WATER, 0, 60, true),
+                        Plan(Bath.A, 10, time, true),
+                        Plan(Bath.WATER, 30, 60, true),
+                        Plan(Bath.B, 10, 300, false)
+                )
+                println(scheduleBuilder(planList))
+              }
+              gridpaneConstraints {
+                columnRowIndex(4, 4)
               }
             }
           }
-        }
-        tab("C41", GridPane()) {
+          tab("C41", GridPane()) {
 
-        }
-        tab("E6", GridPane()) {
+          }
+          tab("E6", GridPane()) {
 
-        }
-        tab("Custom", GridPane()) {
-        }
-        tab("Settings", GridPane()) {
+          }
+          tab("Custom", GridPane()) {
+          }
+          tab("Settings", GridPane()) {
 
+          }
         }
       }
     }
