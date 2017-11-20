@@ -21,6 +21,9 @@ class MainView : View() {
 
   init {
     with(root) {
+      style {
+        //How do we remove the button bar? Mmmm
+      }
       prefHeight = 240.0
       prefWidth = 320.0
 
@@ -40,17 +43,23 @@ class MainView : View() {
 
       fun incrementS() {
         when (seconds.value) {
-          59 -> {minutes.value++; seconds.value = 0}
+          59 -> {
+            minutes.value++; seconds.value = 0
+          }
           else -> seconds.value++
         }
       }
 
       fun decrementS() {
         when (seconds.value) {
-          0 -> if(seconds.value == 0) { when (minutes.value) {
-            0  -> println("Nope")
-            else -> {minutes.value--; seconds.value = 59}
-          } }
+          0 -> if (seconds.value == 0) {
+            when (minutes.value) {
+              0 -> println("Nope")
+              else -> {
+                minutes.value--; seconds.value = 59
+              }
+            }
+          }
           else -> seconds.value--
         }
       }
@@ -129,7 +138,7 @@ class MainView : View() {
                         Plan(Bath.WATER, 30, 60, true),
                         Plan(Bath.B, 10, 300, false)
                 )
-                launch {planExecutor(scheduleBuilder(planList))}
+                launch { planExecutor(scheduleBuilder(planList)) }
               }
               gridpaneConstraints {
                 columnRowIndex(4, 4)
