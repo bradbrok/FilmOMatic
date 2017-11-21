@@ -98,6 +98,7 @@ class MainView : View() {
             label(timeString) {
               style {
                 fontSize = 40.px
+                fontFamily = "Courier"
               }
               bind(timeString)
               gridpaneConstraints {
@@ -150,9 +151,9 @@ class MainView : View() {
                 planList = listOf(
                         Plan(Bath.WATER, 0, 60, true),
                         Plan(Bath.A, 10, time, true),
-                        Plan(Bath.WATER, 30, 60, true),
+                        Plan(Bath.WATER, 0, 60, true),
                         Plan(Bath.B, 10, 300, false),
-                        Plan(Bath.WATER, 60, 2, true)
+                        Plan(Bath.WATER, 0, 120, true)
                 )
                 replaceWith(InProgress::class)
               }
@@ -192,6 +193,7 @@ class InProgress : View() {
         bind(timeLabelString)
         style {
           fontSize = 40.px
+          fontFamily = "Courier"
         }
       }
       label("text") {
@@ -206,11 +208,12 @@ class InProgress : View() {
         prefHeight = 60.0
         launch {
           scheduleBuilder(planList).forEach { step -> time += step.time }
+          time /= 2
           for (i in 1..time) {
-            Platform.runLater { progress = i.toDouble() / time.toDouble() }
+            Platform.runLater { progress = (i.toDouble() / time.toDouble())}
             Platform.runLater {
-              val m = (((time/2) - i) / 60)
-              val s = (((time/2) - i) % 60)
+              val m = (((time) - i) / 60)
+              val s = (((time) - i) % 60)
               if (s < 10) {
                 val str = "$m:0$s";timeLabelString.value = str
               } else {
@@ -233,11 +236,7 @@ class InProgress : View() {
             }
             Thread.sleep(thisStepTime.toLong() * 1000)
           }
-        }
-      }
-      button("Done") {
-        action {
-          replaceWith(MainView::class)
+          stepLabel.value = "Development finished!"
         }
       }
     }
