@@ -98,7 +98,7 @@ class MainView : View() {
             label(timeString) {
               prefWidth = 100.0
               style {
-                fontSize = 24.px
+                fontSize = 32.px
               }
               bind(timeString)
               gridpaneConstraints {
@@ -107,7 +107,7 @@ class MainView : View() {
               }
             }
             button("+") {
-              prefWidth = 30.0
+              prefWidth = 40.0
               action {
                 incrementM()
               }
@@ -116,7 +116,7 @@ class MainView : View() {
               }
             }
             button("-") {
-              prefWidth = 30.0
+              prefWidth = 40.0
               action {
                 decrementM()
               }
@@ -126,7 +126,7 @@ class MainView : View() {
               }
             }
             button("+") {
-              prefWidth = 30.0
+              prefWidth = 40.0
               action {
                 incrementS()
               }
@@ -135,7 +135,7 @@ class MainView : View() {
               }
             }
             button("-") {
-              prefWidth = 30.0
+              prefWidth = 40.0
               action {
                 decrementS()
               }
@@ -144,6 +144,8 @@ class MainView : View() {
               }
             }
             button("Start B&W") {
+              prefWidth = 80.0
+              prefHeight = 80.0
               action {
                 val time = (minutes * 60) + (seconds)
                 planList = listOf(
@@ -195,15 +197,15 @@ class InProgress : View() {
       progressbar()
       {
         prefWidth = 320.0
-        prefHeight = 70.0
+        prefHeight = 60.0
         val thr = thread {
-          scheduleBuilder(planList).forEach { step -> time += step.time }
+          scheduleBuilder(planList).forEach { step -> time += step.time; println(step) }
           for (i in 1..time) {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
             Thread.sleep(1000)
             Platform.runLater {
-              val m = (time - i) / 60;
-              val s = (time - i) % 60;
+              val m = ((time - i) / 120)
+              val s = ((time - i) % 60)
               if (s < 10) {
                 val str = "$m:0$s";timeLabelString.value = str
               } else {
