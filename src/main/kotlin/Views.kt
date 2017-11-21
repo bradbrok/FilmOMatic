@@ -190,9 +190,13 @@ class InProgress : View() {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
             Thread.sleep(1000)
             Platform.runLater {
-              val m = time / 60;
-              val s = time % 60;
-              val str = "$m : $s";timeLabelString.value = str
+              val m = i / 60;
+              val s = i % 60;
+              if (s < 10) {
+                val str = "$m : 0$s";timeLabelString.value = str
+              } else {
+                val str = "$m : $s";timeLabelString.value = str
+              }
             }
           }
         }
