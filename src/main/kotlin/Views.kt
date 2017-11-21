@@ -198,11 +198,10 @@ class InProgress : View() {
       {
         prefWidth = 320.0
         prefHeight = 60.0
-        val thr = thread {
-          scheduleBuilder(planList).forEach { step -> time += step.time; println(step) }
+        thread {
+          scheduleBuilder(planList).forEach { step -> time += step.time }
           for (i in 1..time) {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
-            Thread.sleep(1000)
             Platform.runLater {
               val m = ((time - i) / 120)
               val s = ((time - i) % 60)
@@ -212,6 +211,7 @@ class InProgress : View() {
                 val str = "$m:$s";timeLabelString.value = str
               }
             }
+            Thread.sleep(1000)
           }
         }
       }
