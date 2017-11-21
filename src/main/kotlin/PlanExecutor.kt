@@ -6,6 +6,6 @@ fun planExecutor(plan: List<Step>) {
   plan.forEach { step ->
     println("${step.bath} ${step.flows} for ${step.time} seconds.")
     val time = step.time
-    Thread.sleep(time.toLong()*10)
+    Thread.sleep(time.toLong()*1000)
   }
 }

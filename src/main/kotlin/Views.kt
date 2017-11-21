@@ -18,6 +18,8 @@ import kotlin.concurrent.thread
 
 class FilmOMaticUI : App(MainView::class)
 
+var planList: List<Plan> = listOf()
+
 class MainView : View() {
   override val root = HBox()
 
@@ -134,7 +136,7 @@ class MainView : View() {
             button("Start B&W") {
               action {
                 val time = (minutes.value * 60) + (seconds.value)
-                val planList = listOf(
+                planList = listOf(
                         Plan(Bath.WATER, 0, 60, true),
                         Plan(Bath.A, 10, time, true),
                         Plan(Bath.WATER, 30, 60, true),
@@ -167,24 +169,32 @@ class MainView : View() {
 }
 
 class InProgress : View() {
-  override val root = borderpane()
+  override val root = VBox()
 
   init {
     with(root) {
-      center = vbox {
-        progressbar()
-        {
-          thread {
-            for (i in 1..100) {
-              Platform.runLater { progress = i.toDouble() / 100.0 }
-              Thread.sleep(100)
-            }
+      val timeLabel = SimpleIntegerProperty(0)
+      label("time") {
+        bind(timeLabel)
+      }
+      progressbar()
+      {
+        prefWidth = 320.0
+        prefHeight = 70.0
+        thread {
+          var time = 0
+          scheduleBuilder(planList).forEach { step -> time += step.time }
+          println(time)
+          for (i in 1..time) {
+            Platform.runLater { progress = i.toDouble() / time.toDouble() }
+            Thread.sleep(1000)
+            Platform.runLater { timeLabel.value = i }
           }
         }
-        button("Done" ) {
-          action {
-            replaceWith(MainView::class)
-          }
+      }
+      button("Done") {
+        action {
+          replaceWith(MainView::class)
         }
       }
     }
