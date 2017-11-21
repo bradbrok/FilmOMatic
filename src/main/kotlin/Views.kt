@@ -32,40 +32,61 @@ class MainView : View() {
       prefHeight = 240.0
       prefWidth = 320.0
 
-      val minutes = SimpleIntegerProperty(5)
-      val seconds = SimpleIntegerProperty(0)
+      var minutes = 5
+      var seconds = 0
+      val timeString = SimpleStringProperty("$minutes:0$seconds")
 
       fun incrementM() {
-        minutes.value += 1
+        minutes+= 1
+        if(seconds < 10) {
+          timeString.value = "$minutes:0$seconds"
+        } else {
+          timeString.value = "$minutes:$seconds"
+        }
       }
 
       fun decrementM() {
-        when (minutes.value) {
+        when (minutes) {
           0 -> println("Nope.")
-          else -> minutes.value--
+          else -> minutes--
+        }
+        if(seconds < 10) {
+          timeString.value = "$minutes:0$seconds"
+        } else {
+          timeString.value = "$minutes:$seconds"
         }
       }
 
       fun incrementS() {
-        when (seconds.value) {
+        when (seconds) {
           59 -> {
-            minutes.value++; seconds.value = 0
+            minutes++; seconds = 0
           }
-          else -> seconds.value++
+          else -> seconds++
+        }
+        if(seconds < 10) {
+          timeString.value = "$minutes:0$seconds"
+        } else {
+          timeString.value = "$minutes:$seconds"
         }
       }
 
       fun decrementS() {
-        when (seconds.value) {
-          0 -> if (seconds.value == 0) {
-            when (minutes.value) {
+        when (seconds) {
+          0 -> if (seconds == 0) {
+            when (minutes) {
               0 -> println("Nope")
               else -> {
-                minutes.value--; seconds.value = 59
+                minutes--; seconds = 59
               }
             }
           }
-          else -> seconds.value--
+          else -> seconds--
+        }
+        if(seconds < 10) {
+          timeString.value = "$minutes:0$seconds"
+        } else {
+          timeString.value = "$minutes:$seconds"
         }
       }
 
@@ -74,35 +95,19 @@ class MainView : View() {
         tab("B&W", GridPane()) {
           prefWidth = 320.0
           gridpane {
-            label(minutes) {
-              prefWidth = 40.0
+            label(timeString) {
+              prefWidth = 100.0
               style {
                 fontSize = 24.px
               }
-              bind(minutes)
+              bind(timeString)
               gridpaneConstraints {
                 columnRowIndex(1, 1)
-              }
-            }
-            label(":") {
-              style {
-                fontSize = 24.px
-              }
-              gridpaneConstraints {
-                columnRowIndex(2, 1)
-              }
-            }
-            label(seconds) {
-              prefWidth = 40.0
-              style {
-                fontSize = 24.px
-              }
-              bind(seconds)
-              gridpaneConstraints {
-                columnRowIndex(3, 1)
+                columnSpan = 3
               }
             }
             button("+") {
+              prefWidth = 40.0
               action {
                 incrementM()
               }
@@ -111,14 +116,17 @@ class MainView : View() {
               }
             }
             button("-") {
+              prefWidth = 40.0
               action {
                 decrementM()
               }
+
               gridpaneConstraints {
                 columnRowIndex(1, 3)
               }
             }
             button("+") {
+              prefWidth = 40.0
               action {
                 incrementS()
               }
@@ -127,6 +135,7 @@ class MainView : View() {
               }
             }
             button("-") {
+              prefWidth = 40.0
               action {
                 decrementS()
               }
@@ -136,7 +145,7 @@ class MainView : View() {
             }
             button("Start B&W") {
               action {
-                val time = (minutes.value * 60) + (seconds.value)
+                val time = (minutes * 60) + (seconds)
                 planList = listOf(
                         Plan(Bath.WATER, 0, 60, true),
                         Plan(Bath.A, 10, time, true),
@@ -177,12 +186,15 @@ class InProgress : View() {
       val timeLabelString = SimpleStringProperty("")
       label("time") {
         bind(timeLabelString)
+        style {
+          fontSize = 40.px
+        }
       }
       progressbar()
       {
         prefWidth = 320.0
         prefHeight = 70.0
-        thread {
+        val thr = thread {
           var time = 0
           scheduleBuilder(planList).forEach { step -> time += step.time }
           println(time)
@@ -190,12 +202,12 @@ class InProgress : View() {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
             Thread.sleep(1000)
             Platform.runLater {
-              val m = i / 60;
-              val s = i % 60;
+              val m = (time - i) / 60;
+              val s = (time - i) % 60;
               if (s < 10) {
-                val str = "$m : 0$s";timeLabelString.value = str
+                val str = "$m:0$s";timeLabelString.value = str
               } else {
-                val str = "$m : $s";timeLabelString.value = str
+                val str = "$m:$s";timeLabelString.value = str
               }
             }
           }
