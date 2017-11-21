@@ -4,12 +4,12 @@
 
 import com.pi4j.io.gpio.*
 
-object GPIO {
+class Gpio {
   init {
+    val gpioInstance: GpioController
     try {
-      val gpioInstance = GpioFactory.getInstance()
-    } catch (e: Exception) {
-      val gpioInstance = null
+      gpioInstance = GpioFactory.getInstance()
+    } catch(e: Exception) {
     }
   }
 }
