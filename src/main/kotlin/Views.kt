@@ -107,7 +107,7 @@ class MainView : View() {
               }
             }
             button("+") {
-              prefWidth = 40.0
+              prefWidth = 30.0
               action {
                 incrementM()
               }
@@ -116,7 +116,7 @@ class MainView : View() {
               }
             }
             button("-") {
-              prefWidth = 40.0
+              prefWidth = 30.0
               action {
                 decrementM()
               }
@@ -126,7 +126,7 @@ class MainView : View() {
               }
             }
             button("+") {
-              prefWidth = 40.0
+              prefWidth = 30.0
               action {
                 incrementS()
               }
@@ -135,7 +135,7 @@ class MainView : View() {
               }
             }
             button("-") {
-              prefWidth = 40.0
+              prefWidth = 30.0
               action {
                 decrementS()
               }
@@ -183,7 +183,9 @@ class InProgress : View() {
 
   init {
     with(root) {
-      val timeLabelString = SimpleStringProperty("")
+      var time = 0
+      scheduleBuilder(planList).forEach { step -> time += step.time }
+      val timeLabelString = SimpleStringProperty("$time")
       label("time") {
         bind(timeLabelString)
         style {
@@ -195,9 +197,7 @@ class InProgress : View() {
         prefWidth = 320.0
         prefHeight = 70.0
         val thr = thread {
-          var time = 0
           scheduleBuilder(planList).forEach { step -> time += step.time }
-          println(time)
           for (i in 1..time) {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
             Thread.sleep(1000)
