@@ -5,6 +5,7 @@
 import com.sun.prism.paint.Color
 import javafx.application.Platform
 import javafx.beans.property.SimpleIntegerProperty
+import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.control.Button
@@ -173,9 +174,9 @@ class InProgress : View() {
 
   init {
     with(root) {
-      val timeLabel = SimpleIntegerProperty(0)
+      val timeLabelString = SimpleStringProperty("")
       label("time") {
-        bind(timeLabel)
+        bind(timeLabelString)
       }
       progressbar()
       {
@@ -188,7 +189,11 @@ class InProgress : View() {
           for (i in 1..time) {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
             Thread.sleep(1000)
-            Platform.runLater { timeLabel.value = i }
+            Platform.runLater {
+              val m = time / 60;
+              val s = time % 60;
+              val str = "$m : $s";timeLabelString.value = str
+            }
           }
         }
       }
