@@ -37,8 +37,8 @@ class MainView : View() {
       val timeString = SimpleStringProperty("$minutes:0$seconds")
 
       fun incrementM() {
-        minutes+= 1
-        if(seconds < 10) {
+        minutes += 1
+        if (seconds < 10) {
           timeString.value = "$minutes:0$seconds"
         } else {
           timeString.value = "$minutes:$seconds"
@@ -50,7 +50,7 @@ class MainView : View() {
           0 -> println("Nope.")
           else -> minutes--
         }
-        if(seconds < 10) {
+        if (seconds < 10) {
           timeString.value = "$minutes:0$seconds"
         } else {
           timeString.value = "$minutes:$seconds"
@@ -64,7 +64,7 @@ class MainView : View() {
           }
           else -> seconds++
         }
-        if(seconds < 10) {
+        if (seconds < 10) {
           timeString.value = "$minutes:0$seconds"
         } else {
           timeString.value = "$minutes:$seconds"
@@ -83,7 +83,7 @@ class MainView : View() {
           }
           else -> seconds--
         }
-        if(seconds < 10) {
+        if (seconds < 10) {
           timeString.value = "$minutes:0$seconds"
         } else {
           timeString.value = "$minutes:$seconds"
@@ -96,18 +96,17 @@ class MainView : View() {
           prefWidth = 320.0
           gridpane {
             label(timeString) {
-              prefWidth = 100.0
               style {
-                fontSize = 32.px
+                fontSize = 40.px
               }
               bind(timeString)
               gridpaneConstraints {
                 columnRowIndex(1, 1)
-                columnSpan = 3
+                columnSpan = 10
               }
             }
             button("+") {
-              prefWidth = 40.0
+              prefWidth = 50.0
               action {
                 incrementM()
               }
@@ -116,7 +115,7 @@ class MainView : View() {
               }
             }
             button("-") {
-              prefWidth = 40.0
+              prefWidth = 50.0
               action {
                 decrementM()
               }
@@ -126,7 +125,7 @@ class MainView : View() {
               }
             }
             button("+") {
-              prefWidth = 40.0
+              prefWidth = 50.0
               action {
                 incrementS()
               }
@@ -135,7 +134,7 @@ class MainView : View() {
               }
             }
             button("-") {
-              prefWidth = 40.0
+              prefWidth = 50.0
               action {
                 decrementS()
               }
@@ -144,15 +143,16 @@ class MainView : View() {
               }
             }
             button("Start B&W") {
-              prefWidth = 80.0
-              prefHeight = 80.0
+              prefWidth = 100.0
+              prefHeight = 50.0
               action {
                 val time = (minutes * 60) + (seconds)
                 planList = listOf(
                         Plan(Bath.WATER, 0, 60, true),
                         Plan(Bath.A, 10, time, true),
                         Plan(Bath.WATER, 30, 60, true),
-                        Plan(Bath.B, 10, 300, false)
+                        Plan(Bath.B, 10, 300, false),
+                        Plan(Bath.WATER, 60, 2, true)
                 )
                 replaceWith(InProgress::class)
               }
@@ -209,8 +209,8 @@ class InProgress : View() {
           for (i in 1..time) {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
             Platform.runLater {
-              val m = ((time - i) / 120)
-              val s = ((time - i) % 60)
+              val m = (((time/2) - i) / 60)
+              val s = (((time/2) - i) % 60)
               if (s < 10) {
                 val str = "$m:0$s";timeLabelString.value = str
               } else {
@@ -224,7 +224,8 @@ class InProgress : View() {
           planExecutor(scheduleBuilder(planList))
         }
         launch {
-          scheduleBuilder(planList).forEach { step -> val thisStepTime = step.time
+          scheduleBuilder(planList).forEach { step ->
+            val thisStepTime = step.time
             val thisStepFlows = step.flows
             val thisStepBath = step.bath
             Platform.runLater {
