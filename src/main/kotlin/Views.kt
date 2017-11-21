@@ -232,11 +232,10 @@ class InProgress : View() {
             val thisStepFlows = step.flows
             val thisStepBath = step.bath
             Platform.runLater {
-              stepLabel.value = "$thisStepBath, $thisStepFlows for $thisStepTime"
+              stepLabel.value = "$thisStepBath, $thisStepFlows for ${thisStepTime}s"
             }
             Thread.sleep(thisStepTime.toLong() * 1000)
           }
-          stepLabel.value = "Development finished!"
         }
       }
     }
