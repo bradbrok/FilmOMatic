@@ -154,7 +154,6 @@ class MainView : View() {
                         Plan(Bath.WATER, 30, 60, true),
                         Plan(Bath.B, 10, 300, false)
                 )
-                launch { planExecutor(scheduleBuilder(planList)) }
                 replaceWith(InProgress::class)
               }
               gridpaneConstraints {
@@ -188,17 +187,24 @@ class InProgress : View() {
       var time = 0
       scheduleBuilder(planList).forEach { step -> time += step.time }
       val timeLabelString = SimpleStringProperty("$time")
-      label("time") {
+      val stepLabel = SimpleStringProperty("Idle")
+      label("time ") {
         bind(timeLabelString)
         style {
           fontSize = 40.px
+        }
+      }
+      label("text") {
+        bind(stepLabel)
+        style {
+          fontSize = 24.px
         }
       }
       progressbar()
       {
         prefWidth = 320.0
         prefHeight = 60.0
-        thread {
+        launch {
           scheduleBuilder(planList).forEach { step -> time += step.time }
           for (i in 1..time) {
             Platform.runLater { progress = i.toDouble() / time.toDouble() }
@@ -212,6 +218,19 @@ class InProgress : View() {
               }
             }
             Thread.sleep(1000)
+          }
+        }
+        launch {
+          planExecutor(scheduleBuilder(planList))
+        }
+        launch {
+          scheduleBuilder(planList).forEach { step -> val thisStepTime = step.time
+            val thisStepFlows = step.flows
+            val thisStepBath = step.bath
+            Platform.runLater {
+              stepLabel.value = "$thisStepBath, $thisStepFlows for $thisStepTime"
+            }
+            Thread.sleep(thisStepTime.toLong() * 1000)
           }
         }
       }
