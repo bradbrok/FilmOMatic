@@ -221,11 +221,11 @@ class MainView : View() {
                 action {
                   val time = (minutes * 60) + (seconds)
                   planList = listOf(
-                          Plan(Bath.WATER, 0, (5*60), true),
+                          Plan(Bath.WATER, 0, (5 * 60), true),
                           Plan(Bath.A, 10, time, false),
                           Plan(Bath.B, 10, 300, false),
                           Plan(Bath.WATER, 0, 60, true),
-                          Plan(Bath.WATER, 0, 60,true)
+                          Plan(Bath.WATER, 0, 60, true)
                   )
                   replaceWith(InProgress::class)
                 }
@@ -293,12 +293,12 @@ class MainView : View() {
                 action {
                   val time = (minutes * 60) + (seconds)
                   planList = listOf(
-                          Plan(Bath.WATER, 0, (5*60), true),
+                          Plan(Bath.WATER, 0, (5 * 60), true),
                           Plan(Bath.A, 10, time, false),
                           Plan(Bath.B, 10, 300, false),
                           Plan(Bath.C, 10, 300, false),
                           Plan(Bath.WATER, 0, 60, true),
-                          Plan(Bath.WATER, 0, 60,true)
+                          Plan(Bath.WATER, 0, 60, true)
                   )
                   replaceWith(InProgress::class)
                 }
@@ -312,6 +312,16 @@ class MainView : View() {
           tab("Custom", GridPane()) {
           }
           tab("Settings", GridPane()) {
+            button("Clean Cycle") {
+              action {
+                //Need to make a separate clean cycle builder. Take water into main tank, back to Each bath, then waste.
+                planList = listOf(
+                        Plan(Bath.WATER, 0, 60, true),
+                        Plan(Bath.WATER, 0, 60, true)
+                )
+                replaceWith(InProgress::class)
+              }
+            }
 
           }
         }
@@ -350,7 +360,7 @@ class InProgress : View() {
           scheduleBuilder(planList).forEach { step -> time += step.time }
           time /= 2
           for (i in 1..time) {
-            Platform.runLater { progress = (i.toDouble() / time.toDouble())}
+            Platform.runLater { progress = (i.toDouble() / time.toDouble()) }
             Platform.runLater {
               val m = (((time) - i) / 60)
               val s = (((time) - i) % 60)
