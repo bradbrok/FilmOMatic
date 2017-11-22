@@ -41,6 +41,8 @@ R7 => Solenoid 5 - Waste
 R8 => TBD (Maybe an agitation motor later)
  */
 
+val gpioInstance = GpioFactory.getInstance()
+
 val pumpIn = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_05, "IN", PinState.LOW)
 val pumpOut = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_06, "OUT", PinState.LOW)
 val solenoidA = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_13, "A", PinState.LOW)
@@ -49,40 +51,93 @@ val solenoidC = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_26, "C", Pi
 val solenoidWater = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_12, "Water", PinState.LOW)
 val solenoidWaste = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_20, "Waste", PinState.LOW)
 
+val instanceList = listOf(
+        pumpIn,
+        pumpOut,
+        solenoidA,
+        solenoidB,
+        solenoidC,
+        solenoidWater,
+        solenoidWaste
+)
+
 fun idle() {
   println("Turning off relay")
+  instanceList.forEach { item -> item.low() }
 }
 
 fun waste() {
   println("Waste")
+  pumpOut.high(); solenoidWaste.low()
 }
 
 fun bathA(flows: Flows) {
   when (flows) {
-    Flows.IN -> println("Bath A Flowing In") //Run relay for A:IN state
-    Flows.OUT -> println("Bath A flowing Out") // Run relay for A:OUT state
+    Flows.IN -> {
+      idle(); solenoidA.high(); pumpIn.high()
+    }
+    Flows.OUT -> {
+      idle(); solenoidA.high(); pumpOut.high()
+    }
     Flows.IDLE -> idle()
     Flows.WASTE -> waste()
-    Flows.AGITATE -> println("Bath A Agitating")
+    Flows.AGITATE -> {
+      idle(); solenoidA.high(); pumpIn.high()
+    }
   }
 }
 
 fun bathB(flows: Flows) {
-
+  when (flows) {
+    Flows.IN -> {
+      idle(); solenoidB.high(); pumpIn.high()
+    }
+    Flows.OUT -> {
+      idle(); solenoidB.high(); pumpOut.high()
+    }
+    Flows.IDLE -> idle()
+    Flows.WASTE -> waste()
+    Flows.AGITATE -> {
+      idle(); solenoidB.high(); pumpIn.high()
+    }
+  }
 }
 
 fun bathC(flows: Flows) {
-
+  when (flows) {
+    Flows.IN -> {
+      idle(); solenoidC.high(); pumpIn.high()
+    }
+    Flows.OUT -> {
+      idle(); solenoidC.high(); pumpIn.high()
+    }
+    Flows.IDLE -> idle()
+    Flows.WASTE -> waste()
+    Flows.AGITATE -> {
+      idle(); solenoidC.high(); pumpIn.high()
+    }
+  }
 }
 
 fun bathWater(flows: Flows) {
-
-}
-
-fun bathWaste(flows: Flows) {
-
+  when(flows) {
+    Flows.IN -> {
+      idle(); solenoidWater.high(); pumpIn.high()
+    }
+    Flows.OUT -> {
+      idle(); solenoidWater.high(); pumpOut.high()
+    }
+    Flows.IDLE -> idle()
+    Flows.WASTE -> waste()
+    Flows.AGITATE -> println("MMmmmmmm")
+  }
 }
 
 fun gpioDispatcher(bath: Bath, flows: Flows) {
-
+  when (bath) {
+    Bath.A -> bathA(flows)
+    Bath.B -> bathB(flows)
+    Bath.C -> bathC(flows)
+    Bath.WATER -> bathWater(flows)
+  }
 }

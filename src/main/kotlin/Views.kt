@@ -13,6 +13,7 @@ import javafx.scene.control.TabPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
+import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 import kotlin.concurrent.thread
@@ -220,11 +221,8 @@ class InProgress : View() {
                 val str = "$m:$s";timeLabelString.value = str
               }
             }
-            Thread.sleep(1000)
+            delay(1000)
           }
-        }
-        launch {
-          planExecutor(scheduleBuilder(planList))
         }
         launch {
           scheduleBuilder(planList).forEach { step ->
@@ -234,7 +232,8 @@ class InProgress : View() {
             Platform.runLater {
               stepLabel.value = "$thisStepBath, $thisStepFlows for ${thisStepTime}s"
             }
-            Thread.sleep(thisStepTime.toLong() * 1000)
+            gpioDispatcher(thisStepBath, thisStepFlows)
+            delay(thisStepTime.toLong() * 1000)
           }
         }
       }

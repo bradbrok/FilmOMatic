@@ -7,8 +7,6 @@ import javafx.application.Application
 import kotlinx.coroutines.experimental.*
 import tornadofx.*
 
-val gpioInstance = GpioFactory.getInstance()
-
 fun main(args: Array<String>) {
   //init the pi interface.
   //launch
