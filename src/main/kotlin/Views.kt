@@ -310,6 +310,7 @@ class MainView : View() {
             }
           }
           tab("Custom", GridPane()) {
+            //This will be a TableView with with step selection, need to have delete steps for each row.
           }
           tab("Settings", GridPane()) {
             button("Clean Cycle") {

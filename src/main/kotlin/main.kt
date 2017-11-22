@@ -9,6 +9,7 @@ import tornadofx.*
 
 fun main(args: Array<String>) {
   //init the pi interface.
-  //launch
+  //idle() will init the GPIO pins and sets all relays to idle state until ready.
+  //idle()
   Application.launch(FilmOMaticUI::class.java, *args)
 }
