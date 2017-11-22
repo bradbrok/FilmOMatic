@@ -165,10 +165,149 @@ class MainView : View() {
             }
           }
           tab("C41", GridPane()) {
+            prefWidth = 320.0
+            gridpane {
+              label(timeString) {
+                style {
+                  fontSize = 40.px
+                  fontFamily = "Courier"
+                }
+                bind(timeString)
+                gridpaneConstraints {
+                  columnRowIndex(1, 1)
+                  columnSpan = 10
+                }
+              }
+              button("+") {
+                prefWidth = 50.0
+                action {
+                  incrementM()
+                }
+                gridpaneConstraints {
+                  columnRowIndex(1, 2)
+                }
+              }
+              button("-") {
+                prefWidth = 50.0
+                action {
+                  decrementM()
+                }
 
+                gridpaneConstraints {
+                  columnRowIndex(1, 3)
+                }
+              }
+              button("+") {
+                prefWidth = 50.0
+                action {
+                  incrementS()
+                }
+                gridpaneConstraints {
+                  columnRowIndex(3, 2)
+                }
+              }
+              button("-") {
+                prefWidth = 50.0
+                action {
+                  decrementS()
+                }
+                gridpaneConstraints {
+                  columnRowIndex(3, 3)
+                }
+              }
+              button("C41") {
+                prefWidth = 100.0
+                prefHeight = 50.0
+                action {
+                  val time = (minutes * 60) + (seconds)
+                  planList = listOf(
+                          Plan(Bath.WATER, 0, (5*60), true),
+                          Plan(Bath.A, 10, time, false),
+                          Plan(Bath.B, 10, 300, false),
+                          Plan(Bath.WATER, 0, 60, true),
+                          Plan(Bath.WATER, 0, 60,true)
+                  )
+                  replaceWith(InProgress::class)
+                }
+                gridpaneConstraints {
+                  columnRowIndex(1, 4)
+                  columnSpan = 3
+                }
+              }
+            }
           }
           tab("E6", GridPane()) {
+            prefWidth = 320.0
+            gridpane {
+              label(timeString) {
+                style {
+                  fontSize = 40.px
+                  fontFamily = "Courier"
+                }
+                bind(timeString)
+                gridpaneConstraints {
+                  columnRowIndex(1, 1)
+                  columnSpan = 10
+                }
+              }
+              button("+") {
+                prefWidth = 50.0
+                action {
+                  incrementM()
+                }
+                gridpaneConstraints {
+                  columnRowIndex(1, 2)
+                }
+              }
+              button("-") {
+                prefWidth = 50.0
+                action {
+                  decrementM()
+                }
 
+                gridpaneConstraints {
+                  columnRowIndex(1, 3)
+                }
+              }
+              button("+") {
+                prefWidth = 50.0
+                action {
+                  incrementS()
+                }
+                gridpaneConstraints {
+                  columnRowIndex(3, 2)
+                }
+              }
+              button("-") {
+                prefWidth = 50.0
+                action {
+                  decrementS()
+                }
+                gridpaneConstraints {
+                  columnRowIndex(3, 3)
+                }
+              }
+              button("E6") {
+                prefWidth = 100.0
+                prefHeight = 50.0
+                action {
+                  val time = (minutes * 60) + (seconds)
+                  planList = listOf(
+                          Plan(Bath.WATER, 0, (5*60), true),
+                          Plan(Bath.A, 10, time, false),
+                          Plan(Bath.B, 10, 300, false),
+                          Plan(Bath.C, 10, 300, false),
+                          Plan(Bath.WATER, 0, 60, true),
+                          Plan(Bath.WATER, 0, 60,true)
+                  )
+                  replaceWith(InProgress::class)
+                }
+                gridpaneConstraints {
+                  columnRowIndex(1, 4)
+                  columnSpan = 3
+                }
+              }
+            }
           }
           tab("Custom", GridPane()) {
           }
