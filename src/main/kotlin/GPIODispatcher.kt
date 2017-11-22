@@ -41,8 +41,6 @@ R7 => Solenoid 5 - Waste
 R8 => TBD (Maybe an agitation motor later)
  */
 
-val gpioInstance = GpioFactory.getInstance()
-
 val pumpIn = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_05, "IN", PinState.LOW)
 val pumpOut = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_06, "OUT", PinState.LOW)
 val solenoidA = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_13, "A", PinState.LOW)
