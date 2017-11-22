@@ -107,7 +107,7 @@ fun bathC(flows: Flows) {
       idle(); solenoidC.high(); pumpIn.high()
     }
     Flows.OUT -> {
-      idle(); solenoidC.high(); pumpIn.high()
+      idle(); solenoidC.high(); pumpOut.high()
     }
     Flows.IDLE -> idle()
     Flows.WASTE -> waste()
@@ -127,7 +127,9 @@ fun bathWater(flows: Flows) {
     }
     Flows.IDLE -> idle()
     Flows.WASTE -> waste()
-    Flows.AGITATE -> println("MMmmmmmm")
+    //Can't agitate water like this, would need external agitator device.
+    //This will probably be V2
+    Flows.AGITATE -> {println("MMmmmmmm"); idle()}
   }
 }
 
