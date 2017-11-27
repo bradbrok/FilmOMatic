@@ -1,4 +1,5 @@
 import com.pi4j.io.gpio.PinState
+import com.pi4j.io.gpio.RaspiBcmPin
 import com.pi4j.io.gpio.RaspiPin
 
 /*
@@ -40,13 +41,13 @@ R7 => Solenoid 5 - Waste
 R8 => TBD (Maybe an agitation motor later)
  */
 
-val pumpIn = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_05, "IN", PinState.LOW)
-val pumpOut = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_06, "OUT", PinState.LOW)
-val solenoidA = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_13, "A", PinState.LOW)
-val solenoidB = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_19, "B", PinState.LOW)
-val solenoidC = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_26, "C", PinState.LOW)
-val solenoidWater = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_12, "Water", PinState.LOW)
-val solenoidWaste = gpioInstance.provisionDigitalOutputPin(RaspiPin.GPIO_20, "Waste", PinState.LOW)
+val pumpIn = gpioInstance.provisionDigitalOutputPin(RaspiBcmPin.GPIO_17, "IN", PinState.LOW)
+val pumpOut = gpioInstance.provisionDigitalOutputPin(RaspiBcmPin.GPIO_22, "OUT", PinState.LOW)
+val solenoidA = gpioInstance.provisionDigitalOutputPin(RaspiBcmPin.GPIO_23, "A", PinState.LOW)
+val solenoidB = gpioInstance.provisionDigitalOutputPin(RaspiBcmPin.GPIO_27, "B", PinState.LOW)
+val solenoidC = gpioInstance.provisionDigitalOutputPin(RaspiBcmPin.GPIO_14, "C", PinState.LOW)
+val solenoidWater = gpioInstance.provisionDigitalOutputPin(RaspiBcmPin.GPIO_15, "Water", PinState.LOW)
+val solenoidWaste = gpioInstance.provisionDigitalOutputPin(RaspiBcmPin.GPIO_18, "Waste", PinState.LOW)
 
 val instanceList = listOf(
         pumpIn,
