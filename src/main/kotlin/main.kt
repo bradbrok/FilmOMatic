@@ -8,6 +8,6 @@ import tornadofx.*
 
 fun main(args: Array<String>) {
   //init the pi interface.
-  idle()
+  pins.forEach { i -> Iogpio[i].low() }
   Application.launch(FilmOMaticUI::class.java, *args)
 }

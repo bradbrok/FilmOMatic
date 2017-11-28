@@ -37,7 +37,8 @@ R7 => Solenoid 5 - Waste
 R8 => TBD (Maybe an agitation motor later)
  */
 
-//val pins = listOf(2,3,4,23,14,15,17)
+val pins = listOf(2,3,4,23,14,15,17)
+
 val pumpIn = Iogpio[2]
 val pumpOut = Iogpio[3]
 val solenoidA = Iogpio[4]
