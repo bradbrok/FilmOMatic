@@ -1,8 +1,3 @@
-import com.pi4j.io.gpio.PinState
-import com.pi4j.io.gpio.RaspiBcmPin
-import com.pi4j.io.gpio.RaspiPin
-import Iogpio
-
 /*
  * Film-O-Matic Copyright (c) Bradley Brockman 2017.
  */
@@ -42,14 +37,14 @@ R7 => Solenoid 5 - Waste
 R8 => TBD (Maybe an agitation motor later)
  */
 
-val pins = listOf(2,3,4,23,14,15,18)
+//val pins = listOf(2,3,4,23,14,15,17)
 val pumpIn = Iogpio[2]
 val pumpOut = Iogpio[3]
 val solenoidA = Iogpio[4]
 val solenoidB = Iogpio[23]
 val solenoidC = Iogpio[14]
 val solenoidWater = Iogpio[15]
-val solenoidWaste = Iogpio[18]
+val solenoidWaste = Iogpio[17]
 
 val instanceList = listOf(
         pumpIn,

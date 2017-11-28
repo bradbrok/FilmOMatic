@@ -371,7 +371,7 @@ class InProgress : View() {
                 val str = "$m:$s";timeLabelString.value = str
               }
             }
-            delay(1000)
+            delay(100)
           }
           idle()
         }
@@ -384,7 +384,7 @@ class InProgress : View() {
               stepLabel.value = "$thisStepBath, $thisStepFlows for ${thisStepTime}s"
             }
             gpioDispatcher(thisStepBath, thisStepFlows)
-            delay(thisStepTime.toLong() * 1000)
+            delay(thisStepTime.toLong() * 100)
           }
         }
       }
