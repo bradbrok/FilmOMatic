@@ -68,7 +68,7 @@ fun idle() {
 
 fun waste() {
   println("Waste")
-  pumpOut.high(); solenoidWaste.low()
+  pumpOut.high(); solenoidWaste.high()
 }
 
 fun bathA(flows: Flows) {

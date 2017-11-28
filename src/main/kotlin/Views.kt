@@ -373,6 +373,7 @@ class InProgress : View() {
             }
             delay(1000)
           }
+          idle()
         }
         launch {
           scheduleBuilder(planList).forEach { step ->
